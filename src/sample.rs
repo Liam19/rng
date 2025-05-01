@@ -21,6 +21,7 @@ pub trait SampleSlice {
 impl<T> SampleSlice for [T] {
     type Item = T;
 
+    #[inline]
     fn sample(&self, rng: &mut Rng) -> Option<&Self::Item> {
         if self.is_empty() {
             None
@@ -29,6 +30,7 @@ impl<T> SampleSlice for [T] {
         }
     }
 
+    #[inline]
     fn sample_mut(&mut self, rng: &mut Rng) -> Option<&mut Self::Item> {
         if self.is_empty() {
             None
@@ -37,6 +39,7 @@ impl<T> SampleSlice for [T] {
         }
     }
 
+    #[inline]
     fn sample_multi(&self, rng: &mut Rng, amount: usize) -> Vec<&Self::Item> {
         let len = self.len();
 

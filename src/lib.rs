@@ -1,3 +1,5 @@
+#![allow(missing_docs)]
+
 mod gen_range;
 mod gen_value;
 mod rng;
@@ -21,9 +23,12 @@ mod tests {
 
     #[test]
     fn test_gen() {
-        let mut rng = Rng::new();
+        for _ in 0..2 {
+            let rng = Rng::new();
+            // let rand = rng();
 
-        dbg!(rng.generate::<f32>());
+            dbg!(rng.gen_value::<f32>());
+        }
     }
 
     #[test]

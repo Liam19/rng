@@ -3,11 +3,12 @@ use crate::Rng;
 use core::ops::Bound::{Excluded, Included, Unbounded};
 use core::ops::RangeBounds;
 
-pub trait RandomRange: Sized {
+pub trait RandomRange {
     fn gen_range(rng: &mut Rng, range: impl RangeBounds<Self>) -> Self;
 }
 
 impl Rng {
+    #[inline]
     pub fn gen_range<T: RandomRange>(&mut self, range: impl RangeBounds<T>) -> T {
         T::gen_range(self, range)
     }
@@ -17,6 +18,7 @@ macro_rules! impl_random_range_int {
     ($($t:ty),*) => {
         $(
             impl RandomRange for $t {
+                #[inline]
                 fn gen_range(rng: &mut Rng, range: impl RangeBounds<Self>) -> Self {
                     let start = match range.start_bound() {
                         Included(&n) => n,
@@ -45,6 +47,7 @@ macro_rules! impl_random_range_int {
 impl_random_range_int!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize);
 
 impl RandomRange for f32 {
+    #[inline]
     fn gen_range(rng: &mut Rng, range: impl RangeBounds<Self>) -> Self {
         let start = match range.start_bound() {
             Included(&n) => n,
@@ -57,15 +60,14 @@ impl RandomRange for f32 {
             Unbounded => f32::MAX,
         };
 
-        if !(start < end) {
-            panic!("Invalid float range: [{start}, {end})");
-        }
+        assert!((start < end), "Invalid float range: [{start}, {end})");
 
-        rng.next_f64() as f32 * (end - start) + start
+        (rng.next_f64() as f32).mul_add(end - start, start)
     }
 }
 
 impl RandomRange for f64 {
+    #[inline]
     fn gen_range(rng: &mut Rng, range: impl RangeBounds<Self>) -> Self {
         let start = match range.start_bound() {
             Included(&n) => n,
@@ -78,11 +80,9 @@ impl RandomRange for f64 {
             Unbounded => f64::MAX,
         };
 
-        if !(start < end) {
-            panic!("Invalid float range: [{start}, {end})");
-        }
+        assert!(start < end, "Invalid float range: [{start}, {end})");
 
-        rng.next_f64() * (end - start) + start
+        rng.next_f64().mul_add(end - start, start)
     }
 }
 
@@ -102,7 +102,6 @@ fn next_after_f32(x: f32, toward: f32) -> f32 {
 /// Returns the next representable floating-point value after self in the direction of other.
 ///
 /// This is a low-level operation used to step through floating-point values with maximum precision.
-
 fn next_after_f64(x: f64, toward: f64) -> f64 {
     if x < toward {
         f64::from_bits(x.to_bits() + 1)
