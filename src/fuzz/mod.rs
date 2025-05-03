@@ -1,7 +1,13 @@
+use crate::Rng;
+
 mod impl_collections;
 mod impl_primitives;
-mod random_instance;
 
+#[allow(unused_imports)]
 pub use impl_collections::*;
+#[allow(unused_imports)]
 pub use impl_primitives::*;
-pub use random_instance::*;
+
+pub trait RandomInstance {
+    fn random_instance(rng: &mut Rng) -> Self;
+}

@@ -1,8 +1,9 @@
 use crate::{Rng, fuzz::RandomInstance};
 
-const COLLECTION_LEN: usize = 512;
+const MAX_ELEMENTS: usize = 512;
 
 impl<T: RandomInstance> RandomInstance for Option<T> {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
         if rng.gen_bool(0.5) {
             return None;
@@ -13,8 +14,9 @@ impl<T: RandomInstance> RandomInstance for Option<T> {
 }
 
 impl<T: RandomInstance> RandomInstance for Vec<T> {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
-        let len = rng.gen_range(0..COLLECTION_LEN);
+        let len = rng.gen_range(0..MAX_ELEMENTS);
         let mut vec = Vec::new();
 
         for _ in 0..len {
@@ -26,8 +28,9 @@ impl<T: RandomInstance> RandomInstance for Vec<T> {
 }
 
 impl<T: RandomInstance> RandomInstance for std::collections::VecDeque<T> {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
-        let len = rng.gen_range(0..COLLECTION_LEN);
+        let len = rng.gen_range(0..MAX_ELEMENTS);
         let mut vec = std::collections::VecDeque::new();
 
         for _ in 0..len {
@@ -72,12 +75,14 @@ impl<T: RandomInstance> RandomInstance for std::collections::VecDeque<T> {
 // }
 
 impl<T1: RandomInstance, T2: RandomInstance> RandomInstance for (T1, T2) {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
         (T1::random_instance(rng), T2::random_instance(rng))
     }
 }
 
 impl<T1: RandomInstance, T2: RandomInstance, T3: RandomInstance> RandomInstance for (T1, T2, T3) {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
         (
             T1::random_instance(rng),
@@ -90,6 +95,7 @@ impl<T1: RandomInstance, T2: RandomInstance, T3: RandomInstance> RandomInstance 
 impl<T1: RandomInstance, T2: RandomInstance, T3: RandomInstance, T4: RandomInstance> RandomInstance
     for (T1, T2, T3, T4)
 {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
         (
             T1::random_instance(rng),
@@ -101,6 +107,7 @@ impl<T1: RandomInstance, T2: RandomInstance, T3: RandomInstance, T4: RandomInsta
 }
 
 impl<T: RandomInstance + Clone, const N: usize> RandomInstance for [T; N] {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
         let arr = [0; N];
 

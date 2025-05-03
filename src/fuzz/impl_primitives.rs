@@ -4,6 +4,7 @@ macro_rules! impl_random_instance {
     ($($t:ty),*) => {
         $(
             impl RandomInstance for $t {
+                #[inline]
                 fn random_instance(rng: &mut Rng) -> Self {
                     rng.gen_value()
                 }
@@ -18,26 +19,37 @@ impl_random_instance!(
 );
 
 impl RandomInstance for f32 {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
-        if rng.gen_bool(0.01) {
+        if rng.gen_bool(0.08) {
             return 0.0;
         }
 
-        (1.0 / ((rng.gen_value::<f32>() * 32.0) + (1.0 / 32.0)))
+        if rng.gen_bool(0.3) {
+            return rng.gen_value::<f32>();
+        }
+
+        rng.gen_value::<f32>() * f32::MAX
     }
 }
 
 impl RandomInstance for f64 {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
-        if rng.gen_bool(0.01) {
+        if rng.gen_bool(0.08) {
             return 0.0;
         }
 
-        (1.0 / (rng.gen_value::<f64>() * 64.0)) * (f64::MAX / 100.0)
+        if rng.gen_bool(0.3) {
+            return rng.gen_value::<f64>();
+        }
+
+        rng.gen_value::<f64>() * f64::MAX
     }
 }
 
 impl RandomInstance for bool {
+    #[inline]
     fn random_instance(rng: &mut Rng) -> Self {
         rng.gen_bool(0.5)
     }

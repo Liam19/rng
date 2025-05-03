@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
-use quote::{ToTokens, quote};
-use syn::{DeriveInput, Type, parse_macro_input};
+use quote::quote;
+use syn::{DeriveInput, parse_macro_input};
 
 #[proc_macro_derive(RandomInstance)]
 pub fn derive_random_instance(input: TokenStream) -> TokenStream {

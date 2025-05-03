@@ -8,9 +8,9 @@ mod gen_value;
 mod rng;
 mod sample;
 
-use crate::fuzz::RandomInstance;
 pub use fuzz_derive::RandomInstance;
 
+pub use fuzz::*;
 pub use gen_range::*;
 pub use gen_value::*;
 pub use rng::*;
