@@ -7,6 +7,8 @@ mod gen_range;
 mod gen_value;
 mod rng;
 mod sample;
+#[cfg(feature = "vose_alias")]
+mod vose_alias;
 
 pub use fuzz_derive::RandomInstance;
 
@@ -15,6 +17,8 @@ pub use gen_range::*;
 pub use gen_value::*;
 pub use rng::*;
 pub use sample::*;
+#[cfg(feature = "vose_alias")]
+pub use vose_alias::*;
 
 #[cfg(test)]
 mod tests {
