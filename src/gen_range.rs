@@ -60,7 +60,7 @@ impl RandomRange for f32 {
             Unbounded => f32::MAX,
         };
 
-        assert!((start < end), "Invalid float range: [{start}, {end})");
+        assert!((start < end), "Invalid float range: ({start}, {end})");
 
         (rng.next_f64() as f32).mul_add(end - start, start)
     }
