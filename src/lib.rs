@@ -7,6 +7,7 @@ mod gen_range;
 mod gen_value;
 mod rng;
 mod sample;
+mod shuffle;
 
 pub use fuzz_derive::RandomInstance;
 
@@ -15,6 +16,7 @@ pub use gen_range::*;
 pub use gen_value::*;
 pub use rng::*;
 pub use sample::*;
+pub use shuffle::*;
 
 #[cfg(test)]
 mod tests {
