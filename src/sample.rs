@@ -122,3 +122,20 @@ impl<T> CdfSampler<T> {
         &self.items[i]
     }
 }
+
+#[inline]
+pub fn weighted_sample<'a, T>(weights: &'a Vec<(T, f32)>, rng: &'a mut Rng) -> Option<&'a T> {
+    let weight_sum = weights.iter().map(|(_, w)| w).sum::<f32>();
+    let mut cumulative_weight = 0.0;
+    let random_weight = rng.gen_range(0.0..weight_sum);
+
+    for (value, weight) in weights {
+        cumulative_weight += weight;
+
+        if random_weight <= cumulative_weight {
+            return Some(value);
+        }
+    }
+
+    None
+}
