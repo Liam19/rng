@@ -12,7 +12,7 @@ pub trait SampleSlice {
     /// `None` if the slice is empty.
     fn sample_mut(&mut self, rng: &mut Rng) -> Option<&mut Self::Item>;
 
-    /// Returns a Vec of references to `amount` random element of the slice
+    /// Returns a Vec of references of `amount` random element of the slice
     ///
     /// Panics if the slice has fewer elements than `amount`
     fn sample_multi(&self, rng: &mut Rng, amount: usize) -> Vec<&Self::Item>;

@@ -22,7 +22,7 @@ incremental = true
 debug = false
 
 [dependencies]
-fuzz_derive = { version = "0.1.0", path = "./fuzz_derive", optional = false } # Change to true
+rng_derive = { version = "0.1.0", path = "./rng_derive" }
 
 getrandom = "0.3.3"
 

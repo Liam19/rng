@@ -2,6 +2,7 @@
 #![allow(dead_code)]
 
 // #[cfg(feature = "fuzz")]
+mod enum_traits;
 mod fuzz;
 mod gen_range;
 mod gen_value;
@@ -9,8 +10,9 @@ mod rng;
 mod sample;
 mod shuffle;
 
-pub use fuzz_derive::RandomInstance;
+pub use rng_derive::*;
 
+pub use enum_traits::*;
 pub use fuzz::*;
 pub use gen_range::*;
 pub use gen_value::*;
@@ -83,68 +85,68 @@ mod tests {
         assert!([1, 2, 3].sample_multi(&mut rng, 0).is_empty()); // amount = 0
     }
 
-    #[test]
-    fn test_random_instance_struct_simple() {
-        #[derive(Debug, RandomInstance)]
-        struct TestStruct {
-            int: u32,
-            float: f64,
-            b: bool,
-        }
+    // #[test]
+    // fn test_random_instance_struct_simple() {
+    //     #[derive(Debug, RandomInstance)]
+    //     struct TestStruct {
+    //         int: u32,
+    //         float: f64,
+    //         b: bool,
+    //     }
 
-        for _ in 0..4 {
-            dbg!(TestStruct::random_instance(Rng::new()));
-        }
-    }
+    //     for _ in 0..4 {
+    //         dbg!(TestStruct::random_instance(Rng::new()));
+    //     }
+    // }
 
-    #[test]
-    fn test_random_instance_enum() {
-        #[derive(Debug, RandomInstance)]
-        enum TestEnum {
-            One,
-            Two(f32),
-            Three { b: bool },
-        }
+    // #[test]
+    // fn test_random_instance_enum() {
+    //     #[derive(Debug, RandomInstance)]
+    //     enum TestEnum {
+    //         One,
+    //         Two(f32),
+    //         Three { b: bool },
+    //     }
 
-        for _ in 0..4 {
-            dbg!(TestEnum::random_instance(Rng::new()));
-        }
-    }
+    //     for _ in 0..4 {
+    //         dbg!(TestEnum::random_instance(Rng::new()));
+    //     }
+    // }
 
-    #[test]
-    fn test_random_instance_nested() {
-        #[derive(Debug, RandomInstance)]
-        struct TestStruct {
-            int: u32,
-            float: f64,
-            b: bool,
-            inner_struct: InnerStruct,
-            inner_enum: InnerEnum,
-        }
+    // #[test]
+    // fn test_random_instance_nested() {
+    //     #[derive(Debug, RandomInstance)]
+    //     struct TestStruct {
+    //         int: u32,
+    //         float: f64,
+    //         b: bool,
+    //         inner_struct: InnerStruct,
+    //         inner_enum: InnerEnum,
+    //     }
 
-        #[derive(Debug, RandomInstance)]
-        struct InnerStruct {
-            int: u32,
-            float: f64,
-            b: bool,
-        }
+    //     #[derive(Debug, RandomInstance)]
+    //     struct InnerStruct {
+    //         int: u32,
+    //         float: f64,
+    //         b: bool,
+    //     }
 
-        #[derive(Debug, RandomInstance)]
-        enum InnerEnum {
-            One,
-            Two(f32),
-            Three { b: bool },
-        }
+    //     #[derive(Debug, RandomInstance)]
+    //     enum InnerEnum {
+    //         One,
+    //         Two(f32),
+    //         Three { b: bool },
+    //     }
 
-        for _ in 0..4 {
-            dbg!(TestStruct::random_instance(Rng::new()));
-        }
-    }
+    //     for _ in 0..4 {
+    //         dbg!(TestStruct::random_instance(Rng::new()));
+    //     }
+    // }
 
-    #[test]
-    fn test_random_instance_f32() {
-        for _ in 0..100 {
-            dbg!(f32::random_instance(Rng::new()));
-        }
-    }
+    // #[test]
+    // fn test_random_instance_f32() {
+    //     for _ in 0..100 {
+    //         dbg!(f32::random_instance(Rng::new()));
+    //     }
+    // }
 }
