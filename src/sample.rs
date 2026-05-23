@@ -70,26 +70,18 @@ impl<T> CdfSampler<T> {
     /// Creates a new CdfSampler from items and their corresponding weights.
     ///
     /// # Panics
-    /// - If items and weights have different lengths
     /// - If any weight is negative
     /// - If all weights are zero
     #[inline]
-    pub fn new(items: Vec<T>, weights: Vec<f32>) -> Self {
-        debug_assert!(
-            items.len() == weights.len(),
-            "items and weights must have same length"
-        );
-        debug_assert!(
-            !weights.is_empty(),
-            "cannot create sampler with empty items"
-        );
+    pub fn new(items: Vec<(T, f32)>) -> Self {
+        debug_assert!(!items.is_empty(), "cannot create sampler with empty items");
 
         let mut cdf = Vec::with_capacity(items.len());
         let mut items_inner = Vec::with_capacity(items.len());
 
         let mut total = 0.0;
 
-        for (weight, item) in weights.into_iter().zip(items.into_iter()) {
+        for (item, weight) in items.into_iter() {
             if weight > 0.0 {
                 total += weight;
                 items_inner.push(item);
