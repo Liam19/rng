@@ -29,7 +29,7 @@ impl_random_value_int!(
 );
 
 impl RandomValue for f32 {
-    /// Between 0..1
+    /// In the range: (0..1.0)
     #[inline]
     fn gen_value(rng: &mut Rng) -> Self {
         rng.next_f64() as f32
@@ -37,6 +37,7 @@ impl RandomValue for f32 {
 }
 
 impl RandomValue for f64 {
+    /// In the range: (0..1.0)
     #[inline]
     fn gen_value(rng: &mut Rng) -> Self {
         rng.next_f64()
