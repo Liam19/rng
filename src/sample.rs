@@ -61,6 +61,7 @@ impl<T> SampleSlice for [T] {
 }
 
 /// Cumulative distribution function sampling
+#[derive(Clone, Debug)]
 pub struct CdfSampler<T> {
     cdf: Vec<f32>,
     items: Vec<T>,
